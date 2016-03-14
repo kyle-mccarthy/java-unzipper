@@ -5,10 +5,9 @@
  */
 package kjmd54unzipper;
 
+import ui.UIScene;
+import ui.UIStage;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -17,14 +16,20 @@ import javafx.stage.Stage;
  */
 public class Kjmd54Unzipper extends Application {
     
+    private UIStage mainUIStage;
+    private UIScene startUIScene;
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Unzipper.fxml"));
+        this.mainUIStage = new UIStage(stage);
         
-        Scene scene = new Scene(root);
+        try {
+            this.startUIScene = mainUIStage.loadScene("MainUI", getClass().getResource("MainUI.fxml"));
+        } catch (Exception e) {
+            System.out.println("error loading the scene");
+        }
         
-        stage.setScene(scene);
-        stage.show();
+        this.mainUIStage.displayScene(startUIScene);
     }
 
     /**
