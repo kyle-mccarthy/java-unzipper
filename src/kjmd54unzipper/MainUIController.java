@@ -8,6 +8,7 @@ package kjmd54unzipper;
 import javafx.fxml.FXML;
 import ui.UIScene;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -21,4 +22,10 @@ public class MainUIController extends UIScene {
     
     @FXML
     public Button selectDestButton;
+    
+    @FXML
+    public Text zipLocationText;
+    
+    @FXML
+    public Text destLocationText;
 }
