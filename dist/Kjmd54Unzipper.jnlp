@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Kjmd54Unzipper.jnlp">
+  <information>
+    <title>Kjmd54Unzipper</title>
+    <vendor>kylemccarthy</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Kjmd54Unzipper.jar" size="5824" download="eager" />
+    <jar href="lib/zip4j_1.3.2.jar" size="131025" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Kjmd54Unzipper" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="kjmd54unzipper.Kjmd54Unzipper"  name="Kjmd54Unzipper" />
+  <update check="always"/>
+</jnlp>
