@@ -5,12 +5,12 @@
  */
 package kjmd54unzipper;
 
-import java.util.ArrayList;
 import java.util.List;
 import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.progress.ProgressMonitor;
+import javafx.application.Platform;
+import net.lingala.zip4j.exception.ZipException;
 
 /**
  *
@@ -20,14 +20,17 @@ public class Unzipper extends Thread {
     private ZipFile zipper;
     private String source;
     private String destination;
-    private ProgressMonitor pg;
     private Notification notification;
     private Status status;
+    private String currFile;
+    private int numFiles;
+    private int numCurrFile;
     
     public Unzipper() {
         this.source = null;
         this.destination = null;
         this.status = Status.NOTSTARTED;
+        this.numCurrFile = 0;
     }
     
     public void setSource(String source) {
@@ -49,10 +52,7 @@ public class Unzipper extends Thread {
     public void loadFile() throws Exception {
         // set the source
         this.zipper = new ZipFile(this.source);
-        // set the progress manager
-        this.pg = zipper.getProgressMonitor();
     }
-    
     
     /**
      * Handle the extraction process.  Update the UI with information about the file
@@ -69,38 +69,77 @@ public class Unzipper extends Thread {
             System.out.println("Error unpacking the zip file");
             System.out.println(ex);
         }
+        
         if (files != null) {
-            this.status = Status.RUNNING;
+            this.numFiles = files.size();
+            this.onStart();
             for (Object file : files) {
                 FileHeader fh  = (FileHeader)(file);
-                System.out.println(fh.getFileName());
+                this.onExtractFile(fh.getFileName());
+                try {
+                    this.zipper.extractFile(fh, this.destination);
+                } catch (ZipException ex) {
+                    System.out.println("could not extract " + fh.getFileName());
+                }
+                this.numCurrFile++;
+                try {
+                    Thread.sleep(10);
+                } catch(InterruptedException ex) {
+                    onInterrupted();
+                    return;
+                }
             }
-            this.status = Status.FINISHED;
+            this.onFinished();
         }
     }
     
+    private void onStart() {
+        this.status = Status.RUNNING;
+        this.doNotify();
+    }
+    
     private void onInterrupted() {
-        status = Status.STOPPED;
+        this.status = Status.STOPPED;
+        this.doNotify();
     }
     
     private void onFinished() {
-        status = Status.FINISHED;
+        this.status = Status.FINISHED;
+        this.currFile = null;
+        this.doNotify();
+    }
+    
+    private void onExtractFile(String file) {
+        this.currFile = file;
+        this.doNotify();
+    }
+    
+    private String getCurrentFile() {
+        return this.currFile;
     }
     
     public void setOnNotification(Notification notification) {
         this.notification = notification;
     }
     
+    private void doNotify() {
+        if (notification != null) {
+            Platform.runLater(() -> {
+                notification.handle(this.getProgress(), this.getStatus(), this.getCurrentFile());
+            });
+        }
+    }
+    
     /**
      * Get the percentage of the file that has been extracted
      * 
-     * @return int 
+     * @return double
      */
-    public int getPercentage() {
-        if (this.pg != null) {
-            return this.pg.getPercentDone();
+    public double getProgress() {
+        if (this.numFiles > 0) {
+            return this.numCurrFile/(double)this.numFiles;
         }
-        return 0;
+        return 0.0;
     }
     
     public String getStatus() {

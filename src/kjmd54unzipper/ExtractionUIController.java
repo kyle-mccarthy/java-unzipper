@@ -74,7 +74,12 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     }
     
     public void extractZip() {
-        this.progressBar.setProgress(this.unzipper.getPercentage());
+        this.progressBar.setProgress(this.unzipper.getProgress());
+        this.unzipper.setOnNotification((progress, status, file) -> {
+            System.out.println(progress);
+            System.out.println(status);
+            System.out.println(file);
+        });
         this.unzipper.start();
     }
 }

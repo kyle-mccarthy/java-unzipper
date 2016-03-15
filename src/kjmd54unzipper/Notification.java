@@ -9,6 +9,7 @@ package kjmd54unzipper;
  *
  * @author kylemccarthy
  */
+@FunctionalInterface
 public interface Notification {
-    public void handlePercent(double percent, String file, String status);
+    public void handle(double progress, String status, String file);
 }
