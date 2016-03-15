@@ -6,14 +6,11 @@
 package kjmd54unzipper;
 
 import javafx.fxml.FXML;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ui.UIScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  * FXML Controller class
@@ -38,6 +35,9 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     
     @FXML
     protected Button stopButton;
+    
+    @FXML
+    protected TextFlow fileList;
 
     @Override
     public void setZipper(Unzipper zipper) {
@@ -49,12 +49,29 @@ public class ExtractionUIController extends UIScene implements Unzippable {
         return unzipper;
     }
     
+    /**
+     * Set the status of the application.  If the status is not set to started/RUNNING
+     * disable the stop button because there is not thread to interrupt.
+     * 
+     * @param status 
+     */
+    public void setStatus(String status) {
+        this.statusText.setText("Status: " + status);
+        if (!status.equals("Started")) {
+            this.stopButton.setDisable(true);
+        }
+    }
+    
     public void setSource(String source) {
         this.sourceText.setText("Source: " + source);
     }
     
     public void setDest(String dest) {
         this.destText.setText("Destination: " + dest);
+    }
+    
+    public void addFile(String filename) {
+        this.fileList.getChildren().add(new Text(filename + "\n"));
     }
 
     /**
@@ -75,10 +92,10 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     
     public void extractZip() {
         this.progressBar.setProgress(this.unzipper.getProgress());
-        this.unzipper.setOnNotification((progress, status, file) -> {
-            System.out.println(progress);
-            System.out.println(status);
-            System.out.println(file);
+        this.unzipper.setOnNotification((double progress, String status, String file) -> {
+            this.progressBar.setProgress(progress);
+            this.setStatus(status);
+            this.addFile(file);
         });
         this.unzipper.start();
     }
