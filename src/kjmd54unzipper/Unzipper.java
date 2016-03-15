@@ -5,29 +5,29 @@
  */
 package kjmd54unzipper;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.progress.ProgressMonitor;
 
 /**
  *
  * @author kylemccarthy
  */
-public class Unzipper {
+public class Unzipper extends Thread {
     private ZipFile zipper;
     private String source;
     private String destination;
     private ProgressMonitor pg;
+    private Notification notification;
+    private Status status;
     
     public Unzipper() {
         this.source = null;
         this.destination = null;
-    }
-    
-    public Unzipper(String source, String destination) {
-        this.source = source;
-        this.destination = destination;
+        this.status = Status.NOTSTARTED;
     }
     
     public void setSource(String source) {
@@ -46,33 +46,49 @@ public class Unzipper {
         return this.destination;
     }
     
-    public List getFileHeaders() {
-        try {
-            return this.zipper.getFileHeaders();
-        } catch(Exception ex) {
-            return null;
-        }
-    }
-    
     public void loadFile() throws Exception {
         // set the source
         this.zipper = new ZipFile(this.source);
-        // make it run in its own thread
-        this.zipper.setRunInThread(true);
-        // set the progress manager and start the extraction
+        // set the progress manager
         this.pg = zipper.getProgressMonitor();
     }
     
+    
     /**
-     * Extract the files from the specified ZIP file to the specified folder.
-     * This method can throw a net.lingala.zip4j.exception.ZipException Exception
-     * indicating the the chosen zip file was invalid.  If the destination does
-     * not exist it will be created.
-     * 
-     * @throws Exception 
+     * Handle the extraction process.  Update the UI with information about the file
+     * being extracted, the progress as a percentage, and the status of the application.
      */
-    public void extract() throws Exception {
-        this.zipper.extractAll(this.destination);
+    @Override
+    public void run() {
+        // try to get the list of file headers so we can notify the client of which
+        // files are being extracted
+        List files = null;
+        try {
+            files = this.zipper.getFileHeaders();
+        } catch (Exception ex) {
+            System.out.println("Error unpacking the zip file");
+            System.out.println(ex);
+        }
+        if (files != null) {
+            this.status = Status.RUNNING;
+            for (Object file : files) {
+                FileHeader fh  = (FileHeader)(file);
+                System.out.println(fh.getFileName());
+            }
+            this.status = Status.FINISHED;
+        }
+    }
+    
+    private void onInterrupted() {
+        status = Status.STOPPED;
+    }
+    
+    private void onFinished() {
+        status = Status.FINISHED;
+    }
+    
+    public void setOnNotification(Notification notification) {
+        this.notification = notification;
     }
     
     /**
@@ -87,16 +103,19 @@ public class Unzipper {
         return 0;
     }
     
-    /**
-     * Get the progress of the current file and the extraction process
-     * 
-     * @return 
-     */
     public String getStatus() {
-        if (this.pg.getCurrentOperation() == ProgressMonitor.OPERATION_EXTRACT) {
-            return "Extracting";
-        } else {
-            return "None";
+        if (null != this.status) switch (this.status) {
+            case NOTSTARTED:
+                return "Not Started";
+            case RUNNING:
+                return "Running";
+            case STOPPED:
+                return "Interrupted";
+            case FINISHED:
+                return "Finished";
+            default:
+                return "Unkown status";
         }
+        return "Unkown status";
     }
 }

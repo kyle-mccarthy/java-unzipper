@@ -65,19 +65,16 @@ public class ExtractionUIController extends UIScene implements Unzippable {
         this.unzipper = zipper;
         this.setSource(this.unzipper.getSource());
         this.setDest(this.unzipper.getDestination());
-        this.progressBar.setProgress(this.unzipper.getPercentage());
         try {
             this.unzipper.loadFile();
+            this.extractZip();
         } catch (Exception ex) {
-            System.out.println("Error loading file");
+            System.out.println("Error loading the zip file");
         }
-        this.unzipper.getFileHeaders().forEach((header) -> {
-            System.out.println(header);
-        }); 
-        this.extractZip();
     }
     
     public void extractZip() {
-        
+        this.progressBar.setProgress(this.unzipper.getPercentage());
+        this.unzipper.start();
     }
 }
