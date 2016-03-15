@@ -91,13 +91,6 @@ public class Unzipper implements Runnable {
                     System.out.println("could not extract " + fh.getFileName());
                 }
                 this.numCurrFile++;
-                // sleep or the thread is executed too quickly?
-                try {
-                    Thread.sleep(10);
-                } catch(InterruptedException ex) {
-                    this.onInterrupted();
-                    return;
-                }
             }
             this.onFinished();
         }
@@ -153,8 +146,11 @@ public class Unzipper implements Runnable {
      */
     private void doNotify() {
         if (notification != null) {
+            final double _progress = this.getProgress();
+            final String _status = this.getStatus();
+            final String _filename = this.getCurrentFile();
             Platform.runLater(() -> {
-                notification.handle(this.getProgress(), this.getStatus(), this.getCurrentFile());
+                notification.handle(_progress, _status, _filename);
             });
         }
     }
