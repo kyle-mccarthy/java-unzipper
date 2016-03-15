@@ -8,7 +8,6 @@ package kjmd54unzipper;
 import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import ui.UIScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -37,14 +36,6 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     
     @FXML
     protected Button stopButton;
-    
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
 
     @Override
     public void setZipper(Unzipper zipper) {
