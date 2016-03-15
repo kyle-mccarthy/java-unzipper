@@ -40,6 +40,9 @@ public class MainUIController extends UIScene implements Unzippable {
     protected Text destLocationText;
     
     @FXML
+    protected Text extractionMessage;
+    
+    @FXML
     protected FileChooser fileChooser;
     
     @FXML
@@ -160,7 +163,13 @@ public class MainUIController extends UIScene implements Unzippable {
     }
     
     public void onSelectExtractButton() {
-        
+        if (!this.validSource) {
+            // invalid source
+        } else if (!this.validDest) {
+            // invalid dest
+        } else {
+            // extract
+        }
     }
     
 }
