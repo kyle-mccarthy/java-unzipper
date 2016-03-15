@@ -46,12 +46,16 @@ public class MainUIController extends UIScene implements Unzippable {
     protected DirectoryChooser dirChooser;
     
     private Unzipper unzipper;
+    private Boolean validSource;
+    private Boolean validDest;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.unzipper = new Unzipper();
         this.fileChooser = new FileChooser();
         this.dirChooser = new DirectoryChooser();
+        this.validSource = false;
+        this.validDest = false;
     };
 
     @Override
@@ -83,8 +87,10 @@ public class MainUIController extends UIScene implements Unzippable {
     public void setSource(String source, Boolean valid) {
         if (!valid) {
             this.zipLocationText.setFill(Color.RED);
+            this.validSource = false;
         } else {
             this.zipLocationText.setFill(Color.BLACK);
+            this.validSource = true;
         }
         this.zipLocationText.setText("Source: " + source);
     }
@@ -108,8 +114,10 @@ public class MainUIController extends UIScene implements Unzippable {
     public void setDestination(String dest, Boolean valid) {
         if (!valid) {
             this.destLocationText.setFill(Color.RED);
+            this.validDest = false;
         } else {
             this.destLocationText.setFill(Color.BLACK);
+            this.validDest = true;
         }
         this.destLocationText.setText("Destination: " + dest);
     }
@@ -134,6 +142,10 @@ public class MainUIController extends UIScene implements Unzippable {
         }
     }
     
+    /**
+     * Handle the action of click the dest button.  Will open up a dialog window to 
+     * allow for the user to select a desired source and will validate the selection.
+     */
     public void onSelectDestButtonClick() {
         File file = dirChooser.showDialog(this.selectDestButton.getScene().getWindow());
         // check if the file exsits, we want to make sure that the selected file is a folder
@@ -145,6 +157,10 @@ public class MainUIController extends UIScene implements Unzippable {
                 this.setDestination(file.getAbsolutePath(), false);
             }
         }
+    }
+    
+    public void onSelectExtractButton() {
+        
     }
     
 }
