@@ -98,7 +98,9 @@ public class ExtractionUIController extends UIScene implements Unzippable {
         this.unzipper.setOnNotification((double progress, String status, String file) -> {
             this.progressBar.setProgress(progress);
             this.setStatus(status);
-            this.addFile(file);
+            if (file != null && !file.equals("null")) {
+                this.addFile(file);
+            }
         });
         this.unzipper.start();
     }

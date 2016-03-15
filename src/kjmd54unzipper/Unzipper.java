@@ -155,7 +155,6 @@ public class Unzipper extends Thread {
     private void doNotify() {
         if (notification != null) {
             Platform.runLater(() -> {
-                System.out.println(this.getCurrentFile());
                 notification.handle(this.getProgress(), this.getStatus(), this.getCurrentFile());
             });
         }

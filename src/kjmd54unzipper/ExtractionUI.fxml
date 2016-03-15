@@ -26,13 +26,9 @@
          </font>
       </Button>
       <ScrollPane layoutX="235.0" layoutY="121.0" prefHeight="191.0" prefWidth="338.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TextFlow fx:id="fileList" prefHeight="191.0" prefWidth="319.0" />
-               </children>
-            </AnchorPane>
-        </content>
+         <content>
+            <TextFlow fx:id="fileList" prefHeight="200.0" prefWidth="319.0" />
+         </content>
       </ScrollPane>
    </children>
 </AnchorPane>
