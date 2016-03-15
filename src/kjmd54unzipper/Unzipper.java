@@ -187,8 +187,8 @@ public class Unzipper extends Thread {
             case FINISHED:
                 return "Finished";
             default:
-                return "Unkown status";
+                return "Unknown status";
         }
-        return "Unkown status";
+        return "Unknown status";
     }
 }
