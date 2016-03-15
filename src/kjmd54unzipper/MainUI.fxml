@@ -17,7 +17,7 @@
       </Text>
       <Text fx:id="zipLocationText" layoutX="90.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source:" />
       <Text fx:id="destLocationText" layoutX="90.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:" />
-      <Button fx:id="extractButton" layoutX="422.0" layoutY="187.0" mnemonicParsing="false" text="Extract" />
+      <Button fx:id="extractButton" layoutX="422.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#onExtractButtonClick" text="Extract" />
       <Text fx:id="extractionMessage" layoutX="90.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

@@ -162,12 +162,20 @@ public class MainUIController extends UIScene implements Unzippable {
         }
     }
     
-    public void onSelectExtractButton() {
+    /**
+     * When the extract button is clicked validate the source and destination.  IFF
+     * both are valid then perform the extraction process.  Otherwise display an
+     * appropriate error message.
+     */
+    public void onExtractButtonClick() {
         if (!this.validSource) {
-            // invalid source
+            this.extractionMessage.setText("Invalid source.  Must be existing zip file.");
+            this.extractionMessage.setFill(Color.RED);
         } else if (!this.validDest) {
-            // invalid dest
+            this.extractionMessage.setText("Invalid destination.  Must be directory.");
+            this.extractionMessage.setFill(Color.RED);
         } else {
+            this.extractionMessage.setText("");
             // extract
         }
     }
