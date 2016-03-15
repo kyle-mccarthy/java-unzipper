@@ -8,7 +8,6 @@ package kjmd54unzipper;
 import java.util.List;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.model.FileHeader;
-import net.lingala.zip4j.progress.ProgressMonitor;
 import javafx.application.Platform;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -96,7 +95,7 @@ public class Unzipper extends Thread {
                 try {
                     Thread.sleep(10);
                 } catch(InterruptedException ex) {
-                    onInterrupted();
+                    this.onInterrupted();
                     return;
                 }
             }
