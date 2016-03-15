@@ -180,7 +180,7 @@ public class MainUIController extends UIScene implements Unzippable {
             UIScene extract;
             try {
                 extract = this.getUIStage().loadScene("ExtractionUI", getClass().getResource("ExtractionUI.fxml"));
-                ((ExtractionUIController)extract).setUnzipper(this.unzipper);
+                ((ExtractionUIController)extract).loadUnzipper(this.unzipper);
                 this.getUIStage().displayScene(extract);
             } catch (Exception ex) {
                 System.out.println("Error loading the exraction scene");

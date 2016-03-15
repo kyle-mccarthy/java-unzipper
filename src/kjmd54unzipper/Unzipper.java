@@ -5,7 +5,9 @@
  */
 package kjmd54unzipper;
 
+import java.util.List;
 import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.progress.ProgressMonitor;
 
 /**
@@ -44,6 +46,23 @@ public class Unzipper {
         return this.destination;
     }
     
+    public List getFileHeaders() {
+        try {
+            return this.zipper.getFileHeaders();
+        } catch(Exception ex) {
+            return null;
+        }
+    }
+    
+    public void loadFile() throws Exception {
+        // set the source
+        this.zipper = new ZipFile(this.source);
+        // make it run in its own thread
+        this.zipper.setRunInThread(true);
+        // set the progress manager and start the extraction
+        this.pg = zipper.getProgressMonitor();
+    }
+    
     /**
      * Extract the files from the specified ZIP file to the specified folder.
      * This method can throw a net.lingala.zip4j.exception.ZipException Exception
@@ -53,14 +72,6 @@ public class Unzipper {
      * @throws Exception 
      */
     public void extract() throws Exception {
-        // set the source
-        this.zipper = new ZipFile(this.source);
-        
-        // make it run in its own thread
-        this.zipper.setRunInThread(true);
-        
-        // set the progress manager and start the extraction
-        this.pg = zipper.getProgressMonitor();
         this.zipper.extractAll(this.destination);
     }
     
@@ -70,7 +81,10 @@ public class Unzipper {
      * @return int 
      */
     public int getPercentage() {
-        return this.pg.getPercentDone();
+        if (this.pg != null) {
+            return this.pg.getPercentDone();
+        }
+        return 0;
     }
     
     /**

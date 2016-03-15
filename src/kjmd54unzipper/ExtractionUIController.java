@@ -8,6 +8,8 @@ package kjmd54unzipper;
 import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.UIScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -55,9 +57,27 @@ public class ExtractionUIController extends UIScene implements Unzippable {
         this.destText.setText("Destination: " + dest);
     }
 
-    public void setUnzipper(Unzipper zipper) {
+    /**
+     * Load the zipper into the application and set some of the default attributes 
+     * @param zipper 
+     */
+    public void loadUnzipper(Unzipper zipper) {
         this.unzipper = zipper;
         this.setSource(this.unzipper.getSource());
         this.setDest(this.unzipper.getDestination());
+        this.progressBar.setProgress(this.unzipper.getPercentage());
+        try {
+            this.unzipper.loadFile();
+        } catch (Exception ex) {
+            System.out.println("Error loading file");
+        }
+        this.unzipper.getFileHeaders().forEach((header) -> {
+            System.out.println(header);
+        }); 
+        this.extractZip();
+    }
+    
+    public void extractZip() {
+        
     }
 }
