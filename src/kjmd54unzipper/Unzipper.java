@@ -15,7 +15,7 @@ import net.lingala.zip4j.exception.ZipException;
  *
  * @author kylemccarthy
  */
-public class Unzipper extends Thread {
+public class Unzipper implements Runnable {
     private ZipFile zipper;
     private String source;
     private String destination;

@@ -38,6 +38,8 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     
     @FXML
     protected TextFlow fileList;
+    
+    protected Thread worker;
 
     @Override
     public void setZipper(Unzipper zipper) {
@@ -102,13 +104,14 @@ public class ExtractionUIController extends UIScene implements Unzippable {
                 this.addFile(file);
             }
         });
-        this.unzipper.start();
+        this.worker = new Thread(this.unzipper);
+        this.worker.start();
     }
     
     /**
      * Interrupt the unzipping process
      */
     public void onStopButtonClick() {
-        this.unzipper.interrupt();
+        this.worker.interrupt();
     }
 }
