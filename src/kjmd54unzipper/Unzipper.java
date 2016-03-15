@@ -146,9 +146,9 @@ public class Unzipper implements Runnable {
      */
     private void doNotify() {
         if (notification != null) {
-            final double _progress = this.getProgress();
-            final String _status = this.getStatus();
-            final String _filename = this.getCurrentFile();
+            double _progress = this.getProgress();
+            String _status = this.getStatus();
+            String _filename = this.getCurrentFile();
             Platform.runLater(() -> {
                 notification.handle(_progress, _status, _filename);
             });
