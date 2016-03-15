@@ -57,7 +57,7 @@ public class ExtractionUIController extends UIScene implements Unzippable {
      */
     public void setStatus(String status) {
         this.statusText.setText("Status: " + status);
-        if (!status.equals("Started")) {
+        if (!status.equals("Started") && !status.equals("Running")) {
             this.stopButton.setDisable(true);
         }
     }
@@ -90,6 +90,9 @@ public class ExtractionUIController extends UIScene implements Unzippable {
         }
     }
     
+    /**
+     * Tell the thread to start the extraction process and listen for notifications
+     */
     public void extractZip() {
         this.progressBar.setProgress(this.unzipper.getProgress());
         this.unzipper.setOnNotification((double progress, String status, String file) -> {
@@ -98,5 +101,12 @@ public class ExtractionUIController extends UIScene implements Unzippable {
             this.addFile(file);
         });
         this.unzipper.start();
+    }
+    
+    /**
+     * Interrupt the unzipping process
+     */
+    public void onStopButtonClick() {
+        this.unzipper.interrupt();
     }
 }

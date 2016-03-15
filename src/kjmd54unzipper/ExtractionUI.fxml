@@ -20,7 +20,7 @@
       <ProgressBar fx:id="progressBar" layoutX="27.0" layoutY="322.0" prefHeight="29.0" prefWidth="547.0" progress="0.0" />
       <Text fx:id="statusText" layoutX="26.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" />
       <Text layoutX="235.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Files In Zip:" />
-      <Button fx:id="stopButton" layoutX="27.0" layoutY="130.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="84.0" text="Stop" textFill="RED">
+      <Button fx:id="stopButton" layoutX="27.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#onStopButtonClick" prefHeight="37.0" prefWidth="84.0" text="Stop" textFill="RED">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
