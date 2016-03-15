@@ -9,7 +9,7 @@
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="kjmd54unzipper.MainUIController">
    <children>
       <Button fx:id="selectZipButton" layoutX="90.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#onSelectZipButtonClick" text="Select ZIP File" />
-      <Button fx:id="selectDestButton" layoutX="246.0" layoutY="187.0" mnemonicParsing="false" text="Select Destination" />
+      <Button fx:id="selectDestButton" layoutX="246.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#onSelectDestButtonClick" text="Select Destination" />
       <Text layoutX="196.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JavaFX Unzipper">
          <font>
             <Font size="26.0" />

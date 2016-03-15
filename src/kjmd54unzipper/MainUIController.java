@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import java.io.File;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -41,12 +42,16 @@ public class MainUIController extends UIScene implements Unzippable {
     @FXML
     protected FileChooser fileChooser;
     
+    @FXML
+    protected DirectoryChooser dirChooser;
+    
     private Unzipper unzipper;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.unzipper = new Unzipper();
         this.fileChooser = new FileChooser();
+        this.dirChooser = new DirectoryChooser();
     };
 
     @Override
@@ -84,7 +89,28 @@ public class MainUIController extends UIScene implements Unzippable {
         this.zipLocationText.setText("Source: " + source);
     }
     
+    /**
+     * Set the value of the destination on the UI.  Default the valid flag to true
+     * 
+     * @param dest 
+     */
     public void setDestination(String dest) {
+        this.setDestination(dest, true);
+    }
+    
+    /**
+     * Set the value of the destination text on the UI.  If the path is valid set
+     * the color to black, and if it isn't set the color to red to warn the user.
+     * 
+     * @param dest
+     * @param valid 
+     */
+    public void setDestination(String dest, Boolean valid) {
+        if (!valid) {
+            this.destLocationText.setFill(Color.RED);
+        } else {
+            this.destLocationText.setFill(Color.BLACK);
+        }
         this.destLocationText.setText("Destination: " + dest);
     }
     
@@ -98,11 +124,26 @@ public class MainUIController extends UIScene implements Unzippable {
         // if the file exists, if the 'file' is a file, and if the file is a zip
         // set the source on the zipper, if it isn't display the path but color it
         // red to indicate that there was an error
-        if (file.exists() && file.isFile() && file.getName().substring(file.getName().lastIndexOf('.') + 1).equals("zip")) {
-            this.unzipper.setSource(file.getAbsolutePath());
-            this.setSource(this.unzipper.getSource());
-        } else {
-            this.setSource(file.getAbsolutePath(), false);
+        if (file != null) {
+            if (file.exists() && file.isFile() && file.getName().substring(file.getName().lastIndexOf('.') + 1).equals("zip")) {
+                this.unzipper.setSource(file.getAbsolutePath());
+                this.setSource(this.unzipper.getSource());
+            } else {
+                this.setSource(file.getAbsolutePath(), false);
+            }
+        }
+    }
+    
+    public void onSelectDestButtonClick() {
+        File file = dirChooser.showDialog(this.selectDestButton.getScene().getWindow());
+        // check if the file exsits, we want to make sure that the selected file is a folder
+        if (file != null) {
+            if (file.exists() && file.isDirectory()) {
+                this.unzipper.setDestination(file.getAbsolutePath());
+                this.setDestination(this.unzipper.getDestination());
+            } else {
+                this.setDestination(file.getAbsolutePath(), false);
+            }
         }
     }
     
