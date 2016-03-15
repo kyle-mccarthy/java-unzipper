@@ -12,6 +12,8 @@ import ui.UIScene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -175,7 +177,14 @@ public class MainUIController extends UIScene implements Unzippable {
             this.extractionMessage.setFill(Color.RED);
         } else {
             this.extractionMessage.setText("");
-            // extract
+            UIScene extract;
+            try {
+                extract = this.getUIStage().loadScene("ExtractionUI", getClass().getResource("ExtractionUI.fxml"));
+                ((ExtractionUIController)extract).setUnzipper(this.unzipper);
+                this.getUIStage().displayScene(extract);
+            } catch (Exception ex) {
+                System.out.println("Error loading the exraction scene");
+            }
         }
     }
     

@@ -54,6 +54,19 @@ public class ExtractionUIController extends UIScene implements Unzippable {
     @Override
     public Unzipper getZipper() {
         return unzipper;
-    }    
+    }
     
+    public void setSource(String source) {
+        this.sourceText.setText("Source: " + source);
+    }
+    
+    public void setDest(String dest) {
+        this.destText.setText("Destination: " + dest);
+    }
+
+    public void setUnzipper(Unzipper zipper) {
+        this.unzipper = zipper;
+        this.setSource(this.unzipper.getSource());
+        this.setDest(this.unzipper.getDestination());
+    }
 }
