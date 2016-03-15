@@ -18,6 +18,7 @@ public class Kjmd54Unzipper extends Application {
     
     private UIStage mainUIStage;
     private UIScene startUIScene;
+    private Unzipper unzipper;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,14 +31,6 @@ public class Kjmd54Unzipper extends Application {
         }
         
         this.mainUIStage.displayScene(startUIScene);
-        
-        // test the unzipper
-        Unzipper zip = new Unzipper("/Users/kylemccarthy/Desktop/testfolder.zip", "/Users/kylemccarthy/Desktop/tsadf/");
-        try {
-            zip.extract();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     /**
