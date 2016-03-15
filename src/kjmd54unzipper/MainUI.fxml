@@ -8,14 +8,15 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="kjmd54unzipper.MainUIController">
    <children>
-      <Button fx:id="selectZipButton" layoutX="143.0" layoutY="187.0" mnemonicParsing="false" text="Select ZIP File" />
-      <Button fx:id="selectDestButton" layoutX="339.0" layoutY="187.0" mnemonicParsing="false" text="Select Destination" />
+      <Button fx:id="selectZipButton" layoutX="90.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#onSelectZipButtonClick" text="Select ZIP File" />
+      <Button fx:id="selectDestButton" layoutX="246.0" layoutY="187.0" mnemonicParsing="false" text="Select Destination" />
       <Text layoutX="196.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JavaFX Unzipper">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <Text fx:id="zipLocationText" layoutX="143.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source:" />
-      <Text fx:id="destLocationText" layoutX="143.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:" />
+      <Text fx:id="zipLocationText" layoutX="90.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source:" />
+      <Text fx:id="destLocationText" layoutX="90.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:" />
+      <Button fx:id="extractButton" layoutX="422.0" layoutY="187.0" mnemonicParsing="false" text="Extract" />
    </children>
 </AnchorPane>

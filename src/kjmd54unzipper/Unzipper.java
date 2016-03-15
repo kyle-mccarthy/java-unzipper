@@ -36,6 +36,14 @@ public class Unzipper {
         this.destination = destination;
     }
     
+    public String getSource() {
+        return this.source;
+    }
+    
+    public String getDestination() {
+        return this.destination;
+    }
+    
     /**
      * Extract the files from the specified ZIP file to the specified folder.
      * This method can throw a net.lingala.zip4j.exception.ZipException Exception
